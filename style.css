@@ -54,6 +54,9 @@ ul {
     top: -20px;
 }
 
+.descriptionWeather{
+    text-transform: capitalize;
+}
 .forecast-day{
    display: flex;
    flex-direction: column;
@@ -79,3 +82,5 @@ ul {
     color: rgba(0, 77, 136, 0.614);
     font-weight: 700; 
 }
+
+
