@@ -22,7 +22,33 @@ ul {
     padding: 20px;
     border: 3px solid rgb(107, 107, 255);
 }
-
+.search-engine {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.search-input {
+flex-grow: 1;
+margin-right: 30px;
+border: none;
+background-color: transparent;
+resize: none;
+outline: none;
+border: 3px solid rgb(107, 107, 255);
+border-radius: 5px;
+}
+.search-input::placeholder {
+font-size: 20px;
+text-align: center;
+color: #9aa0a6;
+}
+.search-button {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: rgba(107, 107, 255, 0.468);
+}
 .city {
     color: #202124;
     font-size: 40px;

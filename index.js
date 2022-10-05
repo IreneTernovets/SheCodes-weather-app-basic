@@ -31,10 +31,18 @@ function displayForecast(response) {
     iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`);
     iconElement.setAttribute("alt", `${response.data.weather[0].description}`);
 }
-
+function search(city) {
 let apiKey = "2ee22b85e49eeb365b43bd7a023f52ac";
-let city = "New York";
 let urlApi = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-console.log(urlApi);
+axios.get(urlApi).then(displayForecast);    
+}
+function handleSubmit(respond) {
+respond.preventDefault();
+let cityInputElement = document.querySelector("#city-input");
+search(cityInputElement.value); 
+}
 
-axios.get(urlApi).then(displayForecast);
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
+
+search("Kyiv");
