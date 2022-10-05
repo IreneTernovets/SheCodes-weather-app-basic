@@ -26,7 +26,10 @@ function displayForecast(response) {
     windVelocity.innerHTML = Math.round((response.data.wind.speed * 3600) / 1000);
     let currentDate = document.querySelector("#date");
     currentDate.innerHTML = `Last update: ${transformedDate(response.data.dt)}`;
-
+    let iconElement = document.querySelector("#weather-icon");
+    let icon = response.data.weather[0].icon;
+    iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`);
+    iconElement.setAttribute("alt", `${response.data.weather[0].description}`);
 }
 
 let apiKey = "2ee22b85e49eeb365b43bd7a023f52ac";
