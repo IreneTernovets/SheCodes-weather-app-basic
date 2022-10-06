@@ -15,19 +15,22 @@ return `${day} ${hours}:${minutes}`;
 
 function displayForecast(response) {
     let cityElement = document.querySelector("#cityName");
-    cityElement.innerHTML = response.data.name;
-    let tempretatureInCelsius = document.querySelector("#tempCelsius");
-    tempretatureInCelsius.innerHTML = Math.round(response.data.main.temp);
+    let tempretatureInCelsius = document.querySelector("#temperature");
     let weatherDescription = document.querySelector("#forecastDescription");
-    weatherDescription.innerHTML = response.data.weather[0].description; 
     let humidityElement = document.querySelector("#humidity");
-    humidityElement.innerHTML = response.data.main.humidity;
     let windVelocity = document.querySelector("#windSpeed");
-    windVelocity.innerHTML = Math.round((response.data.wind.speed * 3600) / 1000);
     let currentDate = document.querySelector("#date");
-    currentDate.innerHTML = `Last update: ${transformedDate(response.data.dt)}`;
     let iconElement = document.querySelector("#weather-icon");
     let icon = response.data.weather[0].icon;
+    
+
+    cityElement.innerHTML = response.data.name;
+    celsiusTemperature = response.data.main.temp;
+    tempretatureInCelsius.innerHTML = Math.round(celsiusTemperature);
+    weatherDescription.innerHTML = response.data.weather[0].description; 
+    humidityElement.innerHTML = response.data.main.humidity;
+    windVelocity.innerHTML = Math.round((response.data.wind.speed * 3600) / 1000);
+    currentDate.innerHTML = `Last update: ${transformedDate(response.data.dt)}`;
     iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`);
     iconElement.setAttribute("alt", `${response.data.weather[0].description}`);
 }
@@ -42,7 +45,32 @@ let cityInputElement = document.querySelector("#city-input");
 search(cityInputElement.value); 
 }
 
+function displayInFahrenhait(event) {
+event.preventDefault();
+let tempretatureInCelsius = document.querySelector("#temperature");
+let fahrenhaitTemperature = (celsiusTemperature * 9) / 5 + 32;
+tempretatureInCelsius.innerHTML = Math.round(fahrenhaitTemperature);
+celsiusLink.classList.remove("active");
+fahrenhaitLink.classList.add("active");
+}
+
+function displayInCelsius(event) {
+    event.preventDefault();
+    let tempretatureInFahrenhait = document.querySelector("#temperature");
+    tempretatureInFahrenhait.innerHTML = Math.round(celsiusTemperature);
+    fahrenhaitLink.classList.remove("active");
+    celsiusLink.classList.add("active");
+}
+
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
-search("Kyiv");
+let fahrenhaitLink = document.querySelector("#fahrenhait-link");
+fahrenhaitLink.addEventListener("click", displayInFahrenhait);
+
+let celsiusLink = document.querySelector("#celsius-link");
+celsiusLink.addEventListener("click", displayInCelsius);
+
+let celsiusTemperature = null;
+
+search("Tokyo");

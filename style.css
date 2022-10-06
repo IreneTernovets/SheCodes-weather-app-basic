@@ -13,6 +13,11 @@ ul {
     margin: 0;
     padding: 0;
 }
+
+a {
+    text-decoration: none;
+}
+
 .weather-app {
     max-width: 600px;
     margin: 0 auto;
@@ -74,6 +79,17 @@ color: #9aa0a6;
     color: #202124;
     font-size: 40px;
 }
+
+.active {
+    color: black;
+    
+}
+
+.active:hover {
+    color: black;
+    cursor: auto;
+}
+
 .temp-units {
     font-size: 15px;
     position: relative;
