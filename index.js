@@ -13,6 +13,26 @@ if (hours < 10) {
 return `${day} ${hours}:${minutes}`;
 }
 
+function displayForecastForWeek() {
+let forecastElement = document.querySelector("#weather-forecast");
+let forecastHTML = `<div class="row">`;
+let days = ["Tue", "Wed", "Thu", "Fri"];
+
+days.forEach(function(day){
+ forecastHTML = forecastHTML + `
+<div class="col">
+    <ul class="forecast-day">
+        <li class="forecast-day-name">${day}</li>
+        <li><i class="fa-solid fa-cloud forecast-image"></i></li>
+        <li class="forecast-day-temperature"><span class="temp-max">16°</span><span class="temp-min">13°</span></li>   
+    </ul>
+</div>`;   
+})
+
+forecastHTML = forecastHTML + `</div>`;
+forecastElement.innerHTML = forecastHTML;
+
+}
 function displayForecast(response) {
     let cityElement = document.querySelector("#cityName");
     let tempretatureInCelsius = document.querySelector("#temperature");
@@ -23,6 +43,7 @@ function displayForecast(response) {
     let iconElement = document.querySelector("#weather-icon");
     let icon = response.data.weather[0].icon;
     
+    displayForecastForWeek();
 
     cityElement.innerHTML = response.data.name;
     celsiusTemperature = response.data.main.temp;
