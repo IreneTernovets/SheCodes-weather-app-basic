@@ -13,7 +13,7 @@ if (hours < 10) {
 return `${day} ${hours}:${minutes}`;
 }
 
-function displayForecastForWeek() {
+function displayForecastForWeek(response) {
 let forecastElement = document.querySelector("#weather-forecast");
 let forecastHTML = `<div class="row">`;
 let days = ["Tue", "Wed", "Thu", "Fri"];
@@ -33,7 +33,14 @@ forecastHTML = forecastHTML + `</div>`;
 forecastElement.innerHTML = forecastHTML;
 
 }
-function displayForecast(response) {
+
+function getForecast(coordinates) {
+    let apiKey = "7746bdeabca928cfedcad71e52fd9d66";
+    let apiUrl =`https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}`;
+    axios.get(apiUrl).then(displayForecastForWeek);
+}
+
+function displayTemperature(response) {
     let cityElement = document.querySelector("#cityName");
     let tempretatureInCelsius = document.querySelector("#temperature");
     let weatherDescription = document.querySelector("#forecastDescription");
@@ -42,8 +49,6 @@ function displayForecast(response) {
     let currentDate = document.querySelector("#date");
     let iconElement = document.querySelector("#weather-icon");
     let icon = response.data.weather[0].icon;
-    
-    displayForecastForWeek();
 
     cityElement.innerHTML = response.data.name;
     celsiusTemperature = response.data.main.temp;
@@ -54,11 +59,13 @@ function displayForecast(response) {
     currentDate.innerHTML = `Last update: ${transformedDate(response.data.dt)}`;
     iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${icon}@2x.png`);
     iconElement.setAttribute("alt", `${response.data.weather[0].description}`);
+
+    getForecast(response.data.coord);
 }
 function search(city) {
-let apiKey = "2ee22b85e49eeb365b43bd7a023f52ac";
+let apiKey = "7746bdeabca928cfedcad71e52fd9d66";
 let urlApi = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-axios.get(urlApi).then(displayForecast);    
+axios.get(urlApi).then(displayTemperature);    
 }
 function handleSubmit(respond) {
 respond.preventDefault();
