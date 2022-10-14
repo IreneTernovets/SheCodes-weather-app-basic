@@ -1,5 +1,5 @@
 function transformedDate(timestamp) {
-let date = new Date(timestamp);
+let date = new Date(timestamp * 1000);
 let hours = date.getHours();
 let minutes = date.getMinutes();
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -13,20 +13,29 @@ if (hours < 10) {
 return `${day} ${hours}:${minutes}`;
 }
 
+function formatDay (timestamp) {
+let date = new Date(timestamp * 1000)
+let day = date.getDay();
+let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+return days[day];
+}
+
+
 function displayForecastForWeek(response) {
+let forecast = response.data.daily;
 let forecastElement = document.querySelector("#weather-forecast");
 let forecastHTML = `<div class="row">`;
-let days = ["Tue", "Wed", "Thu", "Fri"];
-
-days.forEach(function(day){
- forecastHTML = forecastHTML + `
+forecast.forEach(function(forecastDay, index){
+    if (index < 4) {
+     forecastHTML = forecastHTML + `
 <div class="col">
     <ul class="forecast-day">
-        <li class="forecast-day-name">${day}</li>
-        <li><i class="fa-solid fa-cloud forecast-image"></i></li>
-        <li class="forecast-day-temperature"><span class="temp-max">16°</span><span class="temp-min">13°</span></li>   
+        <li class="forecast-day-name">${formatDay(forecastDay.dt)}</li>
+        <li><img src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" alt="" width = "50"></li>
+        <li class="forecast-day-temperature"><span class="temp-max">${Math.round(forecastDay.temp.max)}°</span><span class="temp-min">${Math.round(forecastDay.temp.min)}°</span></li>   
     </ul>
-</div>`;   
+</div>`;
+    }   
 })
 
 forecastHTML = forecastHTML + `</div>`;
@@ -36,7 +45,7 @@ forecastElement.innerHTML = forecastHTML;
 
 function getForecast(coordinates) {
     let apiKey = "7746bdeabca928cfedcad71e52fd9d66";
-    let apiUrl =`https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}`;
+    let apiUrl =`https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
     axios.get(apiUrl).then(displayForecastForWeek);
 }
 
